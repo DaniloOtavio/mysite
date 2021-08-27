@@ -1,0 +1,8 @@
+.page-buttons{
+  display: flex;
+  flex-direction: row;
+  background-color: blue;
+  width: 100%;
+  position: fixed;
+  bottom: 10px;
+}
