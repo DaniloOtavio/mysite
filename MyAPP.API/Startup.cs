@@ -24,6 +24,16 @@ namespace MyAPP.API
 
             services.AddSingleton(db);
 
+            services.AddCors(o =>
+            {
+                o.AddPolicy("mypolicy", b =>
+                {
+                    b.AllowAnyOrigin()
+                     .AllowAnyHeader()
+                     .AllowAnyMethod();
+                });
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -44,6 +54,8 @@ namespace MyAPP.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("mypolicy");
 
             app.UseAuthorization();
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyAPP.LIB.Interfaces.Database;
+using System;
 
 namespace MyAPP.API.Controllers
 {
@@ -14,39 +15,27 @@ namespace MyAPP.API.Controllers
             this.db = db;
         }
 
+        [HttpGet]
+        [Route("consultar")]
+        public IActionResult ConsultarCadastro(Guid id)
+        {
+            var guid = Guid.NewGuid();
+            var pessoa = db.Pessoa.ConsultaPessoa(id);
+            if (pessoa == null) return NoContent();
+
+            return Ok(pessoa);
+        }
+
         [HttpPost]
         [Route("cadastro")]
-        public IActionResult CadastroPessoa(LIB.Models.Entradas.PessoasParametros pessoa)
+        public IActionResult CadastroPessoa([FromBody] LIB.Models.Entradas.PessoasParametros pessoa)
         {
-            string erro = verificaErrosPessoa(pessoa);
+            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return BadRequest("NOME NÃO PREENCHIDO!");
 
-            if (!string.IsNullOrEmpty(erro)) return BadRequest(erro);
+            pessoa.UUId = Guid.NewGuid();
 
             var row = db.Pessoa.CadastrarPessoa(pessoa);
             return Ok(row);
-        }
-
-        private static string verificaErrosPessoa(LIB.Models.Entradas.PessoasParametros pessoa)
-        {
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Cpf)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-            if (string.IsNullOrWhiteSpace(pessoa.Nome_Juridico)) return Validations.Constantes.NOME_JURIDICO_VAZIO;
-
-            return string.Empty;
         }
     }
 }

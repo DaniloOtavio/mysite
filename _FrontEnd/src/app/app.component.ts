@@ -11,8 +11,12 @@ export class AppComponent {
 
   rotated = false;
 
-  rotate() {
-    var div = document.getElementById('arrow'),
+  rotate(): any {
+const arrow = document.getElementById('arrow');
 
+
+    if(this.rotated){
+      arrow?.classList.add('rotated');
+    }
   }
 }

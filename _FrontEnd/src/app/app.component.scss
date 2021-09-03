@@ -69,3 +69,8 @@ mat-divider {
     width: 100% !important;
   }
 }
+
+.rotated{
+  transform: rotate(90deg);
+  transition: 1s linear;
+}
